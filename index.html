@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>我的导航栏</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main>
+    <div id="main">
+    </div>
+  </main>
+  <script>
+    var keys = {//将三排键盘上的按键存到一个二维数组里
+      0: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+      1: ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+      2: ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+      length: 3
+    }
+    var hash = {//hash里边存的是键盘与网站的对应关系
+      a: 'alibaba.com',
+      b: 'baidu.com',
+      c: 'csdn.com',
+      q: 'qq.com',
+      w: 'wenchuyang.com',
+      z: 'zhihu.com',
+      length: 26
+    }
+    //先看localStorage里边的hashChange里边有没有值，如果有的话把它取出来并转化为对象存到hashInLocalStorage里边，没有的话设置hashInLocalStorage为null
+    var hashInLocalStorage = JSON.parse(localStorage.getItem('hashChange')||'null')
+    //如果它为真的话把它赋值给hash
+    if(hashInLocalStorage){
+      hash = hashInLocalStorage
+    }
+    for (var i = 0; i < keys.length; i++) {//三行键盘，生成三个div
+      var div1 = document.createElement('div')
+      main.appendChild(div1)
+      for (var j = 0; j < keys[i].length; j++) {//每一行里边的按键用kbd表示
+        var kbd1 = document.createElement('kbd')
+        div1.appendChild(kbd1)
+        kbd1.textContent = keys[i][j]//kbd里边的内容为二维数组对应位置的值
+        var button1 = document.createElement('button')//给kbd里边添加编辑按钮
+        kbd1.appendChild(button1)
+        button1.textContent = "编辑"
+        button1.id = keys[i][j] //设置编辑按钮的id为对应位置的值，方便后边给指定hash的key进行赋值操作
+        //这里函数为什么要写在里边呢，因为对每一个button都要设置点击函数
+        //设置按钮的点击事件
+        button1.onclick = function (btn) {
+          var key = btn.target.id//这里用到的就是上边赋的id，让变量key等于这个id，然后把新的网址放到对应的位置
+          hash[key] = prompt("请输入新的网址")
+          if (hash[key] != null && hash[key] != "") {//这一步的判断是因为如果什么都不输入只是点击确定或者取消也会修改里边的值
+            localStorage.setItem("hashChange", JSON.stringify(hash))
+          }
+        }
+      }
+    }
+    //设置键盘的监听事件
+    document.onkeypress = function (xxx) {
+      //在新的窗口打开网页
+      window.open('http://' + hash[xxx.key], "_blank")//不加http的话就是相对路径了
+    }
+  </script>
+</body>
+
+</html>
