@@ -1,37 +1,73 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
-a{
+a {
   text-decoration: none;
 }
-main{
-  text-align: center;
+
+body{
+  background: rgb(153,203,238) url(https://i.loli.net/2018/02/11/5a7faf643bc97.jpg) no-repeat center center; 
+  background-size: cover;
 }
-#main{
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;  
+  text-align: center;  
+}
+#main {
   display: inline-block;
+  vertical-align: top;
+  border-radius: 12px;  
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 8px 32px;
 }
-#main > div:nth-child(2){
-  margin-left: 1em;
+#main > div{
+  margin: 12px 0;
 }
-#main > div:nth-child(3){
-  margin-left: 2em;
+#main>div:nth-child(2) {
+  margin-left: -50px;
 }
-#main kbd{
-  width: 4em;
-  height: 4em;
-  border: 1px solid red;
+#main>div:nth-child(3) {
+  margin-left: -140px;
+}
+#main kbd.kbd {
   display: inline-block;
+  vertical-align: top;
+  position: relative;  
+  margin: 4px 10px;
+  width: 72px;
+  height: 54px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 1px 1px rgba(31, 31, 31, 1), 0px 2px 1px 2px rgba(2, 2, 2, 1);  
+  background: linear-gradient(to bottom, #292929 0%, #121212 100%, #1e5799 100%);
+  color: rgb(209, 209, 209);
   text-transform: uppercase;
   text-align: center;
-  position: relative;
+  font-size: 24px;
+  font-family: Corbel;
 }
-#main kbd > button{
+#main kbd.kbd > span{
+  position: absolute;
+  left: 10px;
+}
+#main kbd>button {
   position: absolute;
   right: 0;
   bottom: 0;
   display: none;
 }
-#main kbd:hover > button{
+
+#main kbd:hover>button {
   display: inline-block;
+}
+
+#main kbd>img {
+  position: absolute;
+  left: 10px;
+  bottom: 2px;
+  width: 18px;
+  height: 18px;
 }
