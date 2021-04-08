@@ -26,28 +26,6 @@
     </div>
   </main>
   <script>
-    function search() {
-      const method = document.querySelector("#method").value
-      const question = document.querySelector("#question").value
-      
-      localStorage.setItem("searchMethod", method)
-      const form = document.createElement('form');
-      form.method = 'GET'
-      form.target = '_blank'
-      form.style = "display: none"
-      if (method === "google") {
-        form.action = 'https://google.com/search'
-        form.innerHTML = `<input name="q" value=${question}>`
-      } else {
-        form.action = 'http://www.baidu.com/s'
-        form.innerHTML = `<input name="wd" value=${question}>`
-      }
-      document.body.append(form)
-      form.submit()
-      document.body.removeChild(form)
-      return false
-    }
-
     //初始化数据
     var keys = init().keys
     var hash = init().hash
@@ -99,7 +77,7 @@
         if (value.search(/(http|https):\/\//) !== -1) {
           value = value.replace(/(http|https):\/\//, '')
         }
-        hash[key] = value`
+        hash[key] = value
         img2.src = "http://" + hash[key] + "/favicon.ico"
         img2.onerror = function (xxx) {
           xxx.target.src = 'https://i.loli.net/2018/02/11/5a7f7083e3ab4.png'
@@ -168,6 +146,24 @@
         hash: hash,
         method: method
       }
+    }
+    function search() {
+      const method = document.querySelector("#method").value
+      const question = document.querySelector("#question").value
+      
+      localStorage.setItem("searchMethod", method)
+      const form = tag('form', {'method': 'GET', 'target': '_blank', 'style': 'display: none'})
+      if (method === "google") {
+        form.action = 'https://google.com/search'
+        form.innerHTML = `<input name="q" value=${question}>`
+      } else {
+        form.action = 'http://www.baidu.com/s'
+        form.innerHTML = `<input name="wd" value=${question}>`
+      }
+      document.body.append(form)
+      form.submit()
+      document.body.removeChild(form)
+      return false
     }
   </script>
 </body>
