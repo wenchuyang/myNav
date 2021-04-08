@@ -1,22 +1,72 @@
+/* reset */
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 a {
   text-decoration: none;
 }
+input, input:focus, select {
+  border: none;
+  outline: none;
+}
 
+/* common */
+.clearfix::after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+/* page */
 body{
-  background: rgb(153,203,238) url(https://i.loli.net/2018/02/11/5a7faf643bc97.jpg) no-repeat center center; 
+  background: rgb(153,203,238) url(./wall-min.jpg) no-repeat center center; 
   background-size: cover;
 }
 main {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;  
+  min-width: 984px;
   text-align: center;  
 }
+.search {
+  margin-bottom: 2vh;
+  max-width: 60%;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  border-radius: 1000px;
+  box-shadow: 0 1px 5px 0 rgba(0,0,0,0.5)
+}
+.search-select {
+  float: left;
+  width: 20%;
+  height: 100%;
+  padding: 0 0 0 20px;
+  border-radius: 1000px 0 0 1000px;
+}
+.search-input {
+  float: left;
+  width: 60%;
+  height: 100%;
+  padding: 0 12px;
+  font-size: 20px;
+}
+.search-button {
+  float: left;
+  width: 20%;
+  height: 100%;
+  padding: 0 24px 0 10px;
+  background-color: #E07206;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 0 1000px 1000px 0;
+  cursor: pointer;
+}
+
 #main {
   display: inline-block;
   vertical-align: top;

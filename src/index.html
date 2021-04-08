@@ -14,23 +14,56 @@
 
 <body>
   <main>
+    <form id="search" class="search clearfix">
+      <select class="search-select" name="method" id="method">
+        <option value="baidu" selected>百度搜索</option>
+        <option value="google">Google 搜索</option>
+      </select>
+      <input id="question" class="search-input" type="text" name="question" size="31" />
+      <input class="search-button" onclick="return search()" type="submit" value="Search" />
+    </form>
     <div id="main">
     </div>
   </main>
   <script>
+    function search() {
+      const method = document.querySelector("#method").value
+      const question = document.querySelector("#question").value
+      
+      localStorage.setItem("searchMethod", method)
+      const form = document.createElement('form');
+      form.method = 'GET'
+      form.target = '_blank'
+      form.style = "display: none"
+      if (method === "google") {
+        form.action = 'https://google.com/search'
+        form.innerHTML = `<input name="q" value=${question}>`
+      } else {
+        form.action = 'http://www.baidu.com/s'
+        form.innerHTML = `<input name="wd" value=${question}>`
+      }
+      document.body.append(form)
+      form.submit()
+      document.body.removeChild(form)
+      return false
+    }
+
     //初始化数据
     var keys = init().keys
     var hash = init().hash
- 
+    var method = init().method
+    document.querySelector("#method").value = method
+
     //生成键盘
     generateKeyboard(keys, hash)
 
     //设置键盘的监听事件
-    document.onkeypress = function (xxx) {
-      window.open('http://' + hash[xxx.key], "_blank")
+    document.onkeypress = function (e) {
+      if (document.activeElement.id !== 'question' && hash[e.key] && hash[e.key].trim() !== 0) {
+        window.open('http://' + hash[e.key], "_blank")
+      }
     }
-
-//工具函数
+    //工具函数
     function getFromLocalStorage(name) {
       return JSON.parse(localStorage.getItem(name) || 'null')
     }
@@ -62,7 +95,11 @@
         var button2 = btn.target
         var img2 = button2.previousSibling
         var key = button2.id//这里用到的就是上边赋的id，让变量key等于这个id，然后把新的网址放到对应的位置
-        hash[key] = prompt("请输入新的网址")
+        let value = prompt("请输入新的网址")
+        if (value.search(/(http|https):\/\//) !== -1) {
+          value = value.replace(/(http|https):\/\//, '')
+        }
+        hash[key] = value`
         img2.src = "http://" + hash[key] + "/favicon.ico"
         img2.onerror = function (xxx) {
           xxx.target.src = 'https://i.loli.net/2018/02/11/5a7f7083e3ab4.png'
@@ -79,12 +116,11 @@
       span1.textContent = word
       return span1
     }
-    function generateKeyboard(keys,hash) {
+    function generateKeyboard(keys, hash) {
       for (var i = 0; i < keys.length; i++) {//三行键盘，生成三个div
         var div1 = tag('div')
         main.appendChild(div1)
         for (var j = 0; j < keys[i].length; j++) {//每一行里边的按键用kbd表示
-
           var img1 = createImg(hash[keys[i][j]])
           var button1 = createButton(keys[i][j])
           var kbd1 = tag('kbd', { className: 'kbd' })
@@ -121,10 +157,16 @@
       if (hashInLocalStorage) {
         hash = hashInLocalStorage
       }
+      let method = "baidu"
+      let methodInLocalStorage = localStorage.getItem("searchMethod")
+      if (methodInLocalStorage) {
+        method = methodInLocalStorage
+      }
 
       return {
         keys: keys,
-        hash: hash
+        hash: hash,
+        method: method
       }
     }
   </script>
